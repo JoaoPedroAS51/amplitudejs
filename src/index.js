@@ -705,6 +705,18 @@ let Amplitude = (function () {
 		return parseInt( config.active_index );
 	}
 
+    /**
+     * Sets the active index of the player
+     *
+     * Public Accessor: Amplitude.setActiveIndex( index )
+     *
+     * @access public
+     * @param {number} index 	- The number representing the song in the songs array.
+     */
+    function setActiveIndex( index ){
+        AmplitudeCore.setActiveIndex( index );
+    }
+
 	/**
 	 * Gets the active index with respect to the state of the player whether it is
 	 * shuffled or not.
@@ -862,6 +874,7 @@ let Amplitude = (function () {
 		getSongsState: getSongsState,
 		getSongsStatePlaylist: getSongsStatePlaylist,
 		getActiveIndex: getActiveIndex,
+		setActiveIndex: setActiveIndex,
 		getActiveIndexState: getActiveIndexState,
 		getVersion: getVersion,
 		getBuffered: getBuffered,

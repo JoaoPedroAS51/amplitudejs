@@ -416,6 +416,41 @@ let AmplitudeCore = (function() {
 		config.active_song.playbackRate = config.playback_speed;
 	}
 
+    /**
+     * Sets the active index of the player
+     *
+     * Public Accessor: Amplitude.setActiveIndex( index )
+     *
+     * @access public
+     * @param {number} index - The number representing the song in the songs array
+     */
+	function setActiveIndex( index ) {
+        stop();
+
+        /*
+               Determine if there is a new playlist, if so set the active playlist and change the song.
+        */
+        if( AmplitudeHelpers.checkNewPlaylist( null ) ){
+            AmplitudeHelpers.setActivePlaylist( null );
+
+            AmplitudeHelpers.changeSong( index );
+        }
+
+        /*
+               Check if the song is new. If so, change the song.
+        */
+        if( AmplitudeHelpers.checkNewSong( index ) ){
+            AmplitudeHelpers.changeSong( index );
+        }
+
+        /*
+            Sync all of the play pause buttons.
+        */
+        AmplitudeVisualSync.syncMainPlayPause('paused');
+        AmplitudeVisualSync.syncPlaylistPlayPause( config.active_playlist, 'paused' );
+        AmplitudeVisualSync.syncSongPlayPause( config.active_playlist, config.active_index, 'paused' );
+    }
+
 	/*
 		Return publically facing functions
 	*/
@@ -431,7 +466,8 @@ let AmplitudeCore = (function() {
 		playNow: playNow,
 		playSongAtIndex: playSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
-		setPlaybackSpeed: setPlaybackSpeed
+		setPlaybackSpeed: setPlaybackSpeed,
+		setActiveIndex: setActiveIndex
 	}
 })();
 

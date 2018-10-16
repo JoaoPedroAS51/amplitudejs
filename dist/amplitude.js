@@ -1265,7 +1265,7 @@ var AmplitudeVisualSync = function () {
 				/*
     	Since we have an active playlist this time, we want any stand alone
     	songs to be set to paused since the scope is within a playlist.
-    		We check to see if the element has an amplitude-playlist attribute.
+    			We check to see if the element has an amplitude-playlist attribute.
     */
 				if (_songPlayPauseElements[_i3].hasAttribute('amplitude-playlist')) {
 
@@ -2185,6 +2185,41 @@ var AmplitudeCore = function () {
 		_config2.default.active_song.playbackRate = _config2.default.playback_speed;
 	}
 
+	/**
+  * Sets the active index of the player
+  *
+  * Public Accessor: Amplitude.setActiveIndex( index )
+  *
+  * @access public
+  * @param {number} index - The number representing the song in the songs array
+  */
+	function setActiveIndex(index) {
+		stop();
+
+		/*
+         Determine if there is a new playlist, if so set the active playlist and change the song.
+  */
+		if (_helpers2.default.checkNewPlaylist(null)) {
+			_helpers2.default.setActivePlaylist(null);
+
+			_helpers2.default.changeSong(index);
+		}
+
+		/*
+         Check if the song is new. If so, change the song.
+  */
+		if (_helpers2.default.checkNewSong(index)) {
+			_helpers2.default.changeSong(index);
+		}
+
+		/*
+      Sync all of the play pause buttons.
+  */
+		_visual2.default.syncMainPlayPause('paused');
+		_visual2.default.syncPlaylistPlayPause(_config2.default.active_playlist, 'paused');
+		_visual2.default.syncSongPlayPause(_config2.default.active_playlist, _config2.default.active_index, 'paused');
+	}
+
 	/*
  	Return publically facing functions
  */
@@ -2200,7 +2235,8 @@ var AmplitudeCore = function () {
 		playNow: playNow,
 		playSongAtIndex: playSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
-		setPlaybackSpeed: setPlaybackSpeed
+		setPlaybackSpeed: setPlaybackSpeed,
+		setActiveIndex: setActiveIndex
 	};
 }();
 
@@ -2440,7 +2476,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-play"
- 		Binds click and touchend events for amplitude play buttons.
+ 
+ 	Binds click and touchend events for amplitude play buttons.
  --------------------------------------------------------------------------*/
 	function bindPlay() {
 		/*
@@ -2466,7 +2503,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-pause"
- 		Binds click and touchend events for amplitude pause buttons.
+ 
+ 	Binds click and touchend events for amplitude pause buttons.
  --------------------------------------------------------------------------*/
 	function bindPause() {
 		/*
@@ -2492,7 +2530,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-play-pause"
- 		Binds click and touchend events for amplitude play pause buttons.
+ 
+ 	Binds click and touchend events for amplitude play pause buttons.
  --------------------------------------------------------------------------*/
 	function bindPlayPause() {
 		/*
@@ -2518,7 +2557,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-stop"
- 		Binds click and touchend events for amplitude stop buttons
+ 
+ 	Binds click and touchend events for amplitude stop buttons
  --------------------------------------------------------------------------*/
 	function bindStop() {
 		/*
@@ -2544,7 +2584,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-mute"
- 		Binds click and touchend events for amplitude mute buttons
+ 
+ 	Binds click and touchend events for amplitude mute buttons
  --------------------------------------------------------------------------*/
 	function bindMute() {
 		/*
@@ -2583,7 +2624,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-volume-up"
- 		Binds click and touchend events for amplitude volume up buttons
+ 
+ 	Binds click and touchend events for amplitude volume up buttons
  --------------------------------------------------------------------------*/
 	function bindVolumeUp() {
 		/*
@@ -2622,7 +2664,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-volume-down"
- 		Binds click and touchend events for amplitude volume down buttons
+ 
+ 	Binds click and touchend events for amplitude volume down buttons
  --------------------------------------------------------------------------*/
 	function bindVolumeDown() {
 		/*
@@ -2661,7 +2704,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-song-slider"
- 		Binds change and input events for amplitude song slider inputs
+ 
+ 	Binds change and input events for amplitude song slider inputs
  --------------------------------------------------------------------------*/
 	function bindSongSlider() {
 		/*
@@ -2694,7 +2738,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-volume-slider"
- 		Binds change and input events for amplitude volume slider inputs
+ 
+ 	Binds change and input events for amplitude volume slider inputs
  --------------------------------------------------------------------------*/
 	function bindVolumeSlider() {
 		/*
@@ -2736,7 +2781,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-next"
- 		Binds click and touchend events for amplitude next buttons.
+ 
+ 	Binds click and touchend events for amplitude next buttons.
  --------------------------------------------------------------------------*/
 	function bindNext() {
 		/*
@@ -2762,7 +2808,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-prev"
- 		Binds click and touchend events for amplitude prev buttons.
+ 
+ 	Binds click and touchend events for amplitude prev buttons.
  --------------------------------------------------------------------------*/
 	function bindPrev() {
 		/*
@@ -2788,7 +2835,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-shuffle"
- 		Binds click and touchend events for amplitude shuffle buttons.
+ 
+ 	Binds click and touchend events for amplitude shuffle buttons.
  --------------------------------------------------------------------------*/
 	function bindShuffle() {
 		/*
@@ -2821,7 +2869,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-repeat"
- 		Binds click and touchend events for amplitude repeat buttons.
+ 
+ 	Binds click and touchend events for amplitude repeat buttons.
  --------------------------------------------------------------------------*/
 	function bindRepeat() {
 		/*
@@ -2854,7 +2903,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-playback-speed"
- 		Binds click and touchend events for amplitude playback speed buttons.
+ 
+ 	Binds click and touchend events for amplitude playback speed buttons.
  --------------------------------------------------------------------------*/
 	function bindPlaybackSpeed() {
 		/*
@@ -2880,7 +2930,8 @@ var AmplitudeEvents = function () {
 
 	/*--------------------------------------------------------------------------
  	BINDS: class="amplitude-skip-to"
- 		Binds click and touchend events for amplitude skip to buttons.
+ 
+ 	Binds click and touchend events for amplitude skip to buttons.
  --------------------------------------------------------------------------*/
 	function bindSkipTo() {
 		/*
@@ -3226,7 +3277,7 @@ var AmplitudeEventsHelpers = function () {
 			/*
    	Play first song in the playlist since we just
    	switched playlists, we start from the first song.
-   		If the user has shuffle on for the playlist, then
+   			If the user has shuffle on for the playlist, then
    	we go from the first song in the shuffle playlist array.
    */
 			if (_config2.default.shuffled_statuses[playlist]) {
@@ -4870,7 +4921,7 @@ exports.default = {
 			}
 
 			/*
-   	*/
+   		*/
 			if (playButtonPlaylistIndex != null && playButtonPlaylistIndex != '') {
 				if (_helpers4.default.checkNewPlaylist(playButtonPlaylistIndex)) {
 					_helpers4.default.setActivePlaylist(playButtonPlaylistIndex);
@@ -4894,7 +4945,7 @@ exports.default = {
 			}
 
 			/*
-   	*/
+   		*/
 			if ((playButtonPlaylistIndex == null || playButtonPlaylistIndex == '') && playButtonSongIndex != null && playButtonSongIndex != '') {
 
 				if (_helpers4.default.checkNewSong(playButtonSongIndex) || _config2.default.active_playlist != playButtonPlaylistIndex) {
@@ -5047,7 +5098,7 @@ exports.default = {
    	If the current volume in the config is 0, we set the volume to the
    	pre_mute level.  This means that the audio is already muted and
    	needs to be restored to the pre_mute level.
-   		Otherwise, we set pre_mute volume to the current volume
+   			Otherwise, we set pre_mute volume to the current volume
    	and set the config volume to 0, muting the audio.
    */
 			if (_config2.default.volume == 0) {
@@ -5088,9 +5139,9 @@ exports.default = {
 			/*
    	The volume range is from 0 to 1 for an audio element. We make this
    	a base of 100 for ease of working with.
-   		If the new value is less than 100, we use the new calculated
+   			If the new value is less than 100, we use the new calculated
    	value which gets converted to the proper unit for the audio element.
-   		If the new value is greater than 100, we set the volume to 1 which
+   			If the new value is greater than 100, we set the volume to 1 which
    	is the max for the audio element.
    */
 			if (_config2.default.volume + _config2.default.volume_increment <= 100) {
@@ -5126,9 +5177,9 @@ exports.default = {
 			/*
    	The volume range is from 0 to 1 for an audio element. We make this
    	a base of 100 for ease of working with.
-   		If the new value is less than 100, we use the new calculated
+   			If the new value is less than 100, we use the new calculated
    	value which gets converted to the proper unit for the audio element.
-   		If the new value is greater than 100, we set the volume to 1 which
+   			If the new value is greater than 100, we set the volume to 1 which
    	is the max for the audio element.
    */
 			if (_config2.default.volume - _config2.default.volume_increment > 0) {
@@ -6241,6 +6292,18 @@ var Amplitude = function () {
 	}
 
 	/**
+  * Sets the active index of the player
+  *
+  * Public Accessor: Amplitude.setActiveIndex( index )
+  *
+  * @access public
+  * @param {number} index 	- The number representing the song in the songs array.
+  */
+	function setActiveIndex(index) {
+		_core2.default.setActiveIndex(index);
+	}
+
+	/**
   * Gets the active index with respect to the state of the player whether it is
   * shuffled or not.
   *
@@ -6399,6 +6462,7 @@ var Amplitude = function () {
 		getSongsState: getSongsState,
 		getSongsStatePlaylist: getSongsStatePlaylist,
 		getActiveIndex: getActiveIndex,
+		setActiveIndex: setActiveIndex,
 		getActiveIndexState: getActiveIndexState,
 		getVersion: getVersion,
 		getBuffered: getBuffered,
