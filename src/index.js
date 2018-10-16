@@ -512,6 +512,19 @@ let Amplitude = (function () {
 		AmplitudeCore.playSongAtIndex( index );
 	}
 
+    /**
+     * Sets a song at the index passed in for the playlist provided. The index passed
+     * in should be the index of the song in the playlist and not the songs array.
+     *
+     * @access public
+     * @param {number} index 		- The number representing the song in the playlist array.
+     * @param {string} playlist - The key string representing the playlist we are playing the song from.
+     *
+     */
+    function setPlaylistSongAtIndex( index, playlist ){
+        AmplitudeCore.setPlaylistSongAtIndex( index, playlist );
+    }
+
 	/**
 	 * Plays a song at the index passed in for the playlist provided. The index passed
 	 * in should be the index of the song in the playlist and not the songs array.
@@ -864,6 +877,7 @@ let Amplitude = (function () {
 		playNow: playNow,
 		setSongAtIndex: setSongAtIndex,
 		playSongAtIndex: playSongAtIndex,
+		setPlaylistSongAtIndex: setPlaylistSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
 		play: play,
 		pause: pause,

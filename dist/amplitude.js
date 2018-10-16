@@ -2154,6 +2154,51 @@ var AmplitudeCore = function () {
 	}
 
 	/**
+  * Sets a song at the index passed in for the playlist provided. The index passed
+  * in should be the index of the song in the playlist and not the songs array.
+  *
+  * @access public
+  * @param {number} index 		- The number representing the song in the playlist array.
+  * @param {string} playlist 	- The key string representing the playlist we are playing the song from.
+  *
+  */
+	function setPlaylistSongAtIndex(index, playlist) {
+		/*
+          Stop the current song.
+  */
+		stop();
+
+		/*
+          Get the index of the song in the songs array. This is the integer at the index
+         in the playlist.
+  */
+		var songIndex = _config2.default.playlists[playlist][index];
+
+		/*
+          Determine if there is a new playlist, if so set the active playlist and change the song.
+  */
+		if (_helpers2.default.checkNewPlaylist(playlist)) {
+			_helpers2.default.setActivePlaylist(playlist);
+
+			_helpers2.default.changeSong(songIndex);
+		}
+
+		/*
+          Check if the song is new. If so, change the song.
+  */
+		if (_helpers2.default.checkNewSong(songIndex)) {
+			_helpers2.default.changeSong(songIndex);
+		}
+
+		/*
+      Sync all of the play pause buttons.
+  */
+		_visual2.default.syncMainPlayPause('paused');
+		_visual2.default.syncPlaylistPlayPause(_config2.default.active_playlist, 'paused');
+		_visual2.default.syncSongPlayPause(_config2.default.active_playlist, _config2.default.active_index, 'paused');
+	}
+
+	/**
  * Plays a song at the index passed in for the playlist provided. The index passed
  * in should be the index of the song in the playlist and not the songs array.
  *
@@ -2235,6 +2280,7 @@ var AmplitudeCore = function () {
 		playNow: playNow,
 		setSongAtIndex: setSongAtIndex,
 		playSongAtIndex: playSongAtIndex,
+		setPlaylistSongAtIndex: setPlaylistSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
 		setPlaybackSpeed: setPlaybackSpeed
 	};
@@ -6098,6 +6144,19 @@ var Amplitude = function () {
 	}
 
 	/**
+  * Sets a song at the index passed in for the playlist provided. The index passed
+  * in should be the index of the song in the playlist and not the songs array.
+  *
+  * @access public
+  * @param {number} index 		- The number representing the song in the playlist array.
+  * @param {string} playlist - The key string representing the playlist we are playing the song from.
+  *
+  */
+	function setPlaylistSongAtIndex(index, playlist) {
+		_core2.default.setPlaylistSongAtIndex(index, playlist);
+	}
+
+	/**
   * Plays a song at the index passed in for the playlist provided. The index passed
   * in should be the index of the song in the playlist and not the songs array.
   *
@@ -6452,6 +6511,7 @@ var Amplitude = function () {
 		playNow: playNow,
 		setSongAtIndex: setSongAtIndex,
 		playSongAtIndex: playSongAtIndex,
+		setPlaylistSongAtIndex: setPlaylistSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
 		play: play,
 		pause: pause,
