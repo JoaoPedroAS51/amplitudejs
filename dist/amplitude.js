@@ -2076,6 +2076,41 @@ var AmplitudeCore = function () {
 	}
 
 	/**
+  * Sets the song at a specific index in the songs array
+  *
+  * Public Accessor: Amplitude.setSongAtIndex( index )
+  *
+  * @access public
+  * @param {number} index - The number representing the song in the songs array
+  */
+	function setSongAtIndex(index) {
+		stop();
+
+		/*
+         Determine if there is a new playlist, if so set the active playlist and change the song.
+  */
+		if (_helpers2.default.checkNewPlaylist(null)) {
+			_helpers2.default.setActivePlaylist(null);
+
+			_helpers2.default.changeSong(index);
+		}
+
+		/*
+         Check if the song is new. If so, change the song.
+  */
+		if (_helpers2.default.checkNewSong(index)) {
+			_helpers2.default.changeSong(index);
+		}
+
+		/*
+      Sync all of the play pause buttons.
+  */
+		_visual2.default.syncMainPlayPause('paused');
+		_visual2.default.syncPlaylistPlayPause(_config2.default.active_playlist, 'paused');
+		_visual2.default.syncSongPlayPause(_config2.default.active_playlist, _config2.default.active_index, 'paused');
+	}
+
+	/**
   * Plays the song at a specific index in the songs array
   *
   * Public Accessor: Amplitude.playSongAtIndex( song )
@@ -2185,41 +2220,6 @@ var AmplitudeCore = function () {
 		_config2.default.active_song.playbackRate = _config2.default.playback_speed;
 	}
 
-	/**
-  * Sets the active index of the player
-  *
-  * Public Accessor: Amplitude.setActiveIndex( index )
-  *
-  * @access public
-  * @param {number} index - The number representing the song in the songs array
-  */
-	function setActiveIndex(index) {
-		stop();
-
-		/*
-         Determine if there is a new playlist, if so set the active playlist and change the song.
-  */
-		if (_helpers2.default.checkNewPlaylist(null)) {
-			_helpers2.default.setActivePlaylist(null);
-
-			_helpers2.default.changeSong(index);
-		}
-
-		/*
-         Check if the song is new. If so, change the song.
-  */
-		if (_helpers2.default.checkNewSong(index)) {
-			_helpers2.default.changeSong(index);
-		}
-
-		/*
-      Sync all of the play pause buttons.
-  */
-		_visual2.default.syncMainPlayPause('paused');
-		_visual2.default.syncPlaylistPlayPause(_config2.default.active_playlist, 'paused');
-		_visual2.default.syncSongPlayPause(_config2.default.active_playlist, _config2.default.active_index, 'paused');
-	}
-
 	/*
  	Return publically facing functions
  */
@@ -2233,10 +2233,10 @@ var AmplitudeCore = function () {
 		disconnectStream: disconnectStream,
 		reconnectStream: reconnectStream,
 		playNow: playNow,
+		setSongAtIndex: setSongAtIndex,
 		playSongAtIndex: playSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
-		setPlaybackSpeed: setPlaybackSpeed,
-		setActiveIndex: setActiveIndex
+		setPlaybackSpeed: setPlaybackSpeed
 	};
 }();
 
@@ -6074,6 +6074,18 @@ var Amplitude = function () {
 	}
 
 	/**
+  * Sets a song at the index passed in from the songs array.
+  *
+  * Public Accessor: Amplitude.setSongAtIndex( index )
+  *
+  * @access public
+  * @param {number} index 	- The number representing the song in the songs array.
+  */
+	function setSongAtIndex(index) {
+		_core2.default.setSongAtIndex(index);
+	}
+
+	/**
   * Plays a song at the index passed in from the songs array.
   *
   * Public Accessor: Amplitude.playSongAtIndex( index )
@@ -6292,18 +6304,6 @@ var Amplitude = function () {
 	}
 
 	/**
-  * Sets the active index of the player
-  *
-  * Public Accessor: Amplitude.setActiveIndex( index )
-  *
-  * @access public
-  * @param {number} index 	- The number representing the song in the songs array.
-  */
-	function setActiveIndex(index) {
-		_core2.default.setActiveIndex(index);
-	}
-
-	/**
   * Gets the active index with respect to the state of the player whether it is
   * shuffled or not.
   *
@@ -6450,6 +6450,7 @@ var Amplitude = function () {
 		removeSong: removeSong,
 		removeSongFromPlaylist: removeSongFromPlaylist,
 		playNow: playNow,
+		setSongAtIndex: setSongAtIndex,
 		playSongAtIndex: playSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
 		play: play,
@@ -6462,7 +6463,6 @@ var Amplitude = function () {
 		getSongsState: getSongsState,
 		getSongsStatePlaylist: getSongsStatePlaylist,
 		getActiveIndex: getActiveIndex,
-		setActiveIndex: setActiveIndex,
 		getActiveIndexState: getActiveIndexState,
 		getVersion: getVersion,
 		getBuffered: getBuffered,

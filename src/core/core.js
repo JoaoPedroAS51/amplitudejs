@@ -306,6 +306,41 @@ let AmplitudeCore = (function() {
 		play();
 	}
 
+    /**
+     * Sets the song at a specific index in the songs array
+     *
+     * Public Accessor: Amplitude.setSongAtIndex( index )
+     *
+     * @access public
+     * @param {number} index - The number representing the song in the songs array
+     */
+    function setSongAtIndex( index ) {
+        stop();
+
+        /*
+               Determine if there is a new playlist, if so set the active playlist and change the song.
+        */
+        if( AmplitudeHelpers.checkNewPlaylist( null ) ){
+            AmplitudeHelpers.setActivePlaylist( null );
+
+            AmplitudeHelpers.changeSong( index );
+        }
+
+        /*
+               Check if the song is new. If so, change the song.
+        */
+        if( AmplitudeHelpers.checkNewSong( index ) ){
+            AmplitudeHelpers.changeSong( index );
+        }
+
+        /*
+            Sync all of the play pause buttons.
+        */
+        AmplitudeVisualSync.syncMainPlayPause('paused');
+        AmplitudeVisualSync.syncPlaylistPlayPause( config.active_playlist, 'paused' );
+        AmplitudeVisualSync.syncSongPlayPause( config.active_playlist, config.active_index, 'paused' );
+    }
+
 	/**
 	 * Plays the song at a specific index in the songs array
 	 *
@@ -416,41 +451,6 @@ let AmplitudeCore = (function() {
 		config.active_song.playbackRate = config.playback_speed;
 	}
 
-    /**
-     * Sets the active index of the player
-     *
-     * Public Accessor: Amplitude.setActiveIndex( index )
-     *
-     * @access public
-     * @param {number} index - The number representing the song in the songs array
-     */
-	function setActiveIndex( index ) {
-        stop();
-
-        /*
-               Determine if there is a new playlist, if so set the active playlist and change the song.
-        */
-        if( AmplitudeHelpers.checkNewPlaylist( null ) ){
-            AmplitudeHelpers.setActivePlaylist( null );
-
-            AmplitudeHelpers.changeSong( index );
-        }
-
-        /*
-               Check if the song is new. If so, change the song.
-        */
-        if( AmplitudeHelpers.checkNewSong( index ) ){
-            AmplitudeHelpers.changeSong( index );
-        }
-
-        /*
-            Sync all of the play pause buttons.
-        */
-        AmplitudeVisualSync.syncMainPlayPause('paused');
-        AmplitudeVisualSync.syncPlaylistPlayPause( config.active_playlist, 'paused' );
-        AmplitudeVisualSync.syncSongPlayPause( config.active_playlist, config.active_index, 'paused' );
-    }
-
 	/*
 		Return publically facing functions
 	*/
@@ -464,10 +464,10 @@ let AmplitudeCore = (function() {
 		disconnectStream: disconnectStream,
 		reconnectStream: reconnectStream,
 		playNow: playNow,
+        setSongAtIndex: setSongAtIndex,
 		playSongAtIndex: playSongAtIndex,
 		playPlaylistSongAtIndex: playPlaylistSongAtIndex,
-		setPlaybackSpeed: setPlaybackSpeed,
-		setActiveIndex: setActiveIndex
+		setPlaybackSpeed: setPlaybackSpeed
 	}
 })();
 
