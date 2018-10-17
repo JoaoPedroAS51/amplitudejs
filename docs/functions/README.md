@@ -208,11 +208,25 @@ yourself.
 Amplitude.removeSongFromPlaylist( indexOfSongInPlaylist, playlistKey )
 ```
 
+## Set Song At Index
+Sets whatever song is set in the config at the specified index.
+
+```javascript
+Amplitude.setSongAtIndex( songIndex )
+```
+
 ## Play Song At Index
 Plays whatever song is set in the config at the specified index.
 
 ```javascript
 Amplitude.playSongAtIndex( songIndex )
+```
+
+## Set Playlist Song At Index
+Sets the song in a playlist at the specified index.
+
+```javascript
+Amplitude.setPlaylistSongAtIndex( playlistIndex, playlistKey )
 ```
 
 ## Play Playlist Song At Index
