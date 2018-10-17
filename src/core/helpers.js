@@ -423,6 +423,23 @@ let AmplitudeHelpers = (function () {
          		!isNaN( parseInt( int, 10 ) );
 	}
 
+    /**
+     * Waits for a condition to change to perform a callback
+     *
+     * Public Accessor: AmplitudeHelpers.waitFor( condition, callback )
+     *
+     * @access public
+     * @param condition - The condition necessary to perform the callback
+     * @param {function} callback - The function to be executed after the condition is true
+     */
+    function waitFor( condition, callback ) {
+        if(!condition) {
+            window.setTimeout(waitFor.bind(null, condition, callback), 100);
+        } else {
+            callback();
+        }
+    }
+
 	/*
 		Returns the public functions
 	*/
@@ -438,7 +455,8 @@ let AmplitudeHelpers = (function () {
 		shufflePlaylistSongs: shufflePlaylistSongs,
 		setActivePlaylist: setActivePlaylist,
 		isURL: isURL,
-		isInt: isInt
+		isInt: isInt,
+        waitFor: waitFor
 	}
 })();
 
