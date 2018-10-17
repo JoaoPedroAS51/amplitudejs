@@ -456,6 +456,23 @@ var AmplitudeEvents = (function () {
 			where if it is anything else, it's the input method.
 		*/
 		for( var i = 0; i < song_sliders.length; i++ ){
+
+			/*
+				Defines if the song slider is sliding
+			*/
+            song_sliders[i].removeEventListener('mousedown', function () {
+                config.is_sliding = true;
+            });
+            song_sliders[i].addEventListener('mousedown', function () {
+                config.is_sliding = true;
+            });
+            song_sliders[i].removeEventListener('mouseup', function () {
+                config.is_sliding = false;
+            });
+            song_sliders[i].addEventListener('mouseup', function () {
+                config.is_sliding = false;
+            });
+
 			if ( msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) ){
 				song_sliders[i].removeEventListener('change', AmplitudeHandlers.songSlider );
 				song_sliders[i].addEventListener('change', AmplitudeHandlers.songSlider );

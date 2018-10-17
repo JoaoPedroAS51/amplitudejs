@@ -42,6 +42,7 @@
  * @property {number} 	config.soundcloud_song_count 		- Used on config to count how many songs are from Soundcloud and compare it to how many are ready for when to move to the rest of the configuration
  * @property {number} 	config.soundcloud_songs_ready 	- Used on config to count how many songs are ready so when we get all of the data from the SoundCloud API that we need this should match the SoundCloud song count meaning we can move to the rest of the config.
  * @property {integer}	config.is_touch_moving 					- Flag for if the user is moving the screen.
+ * @property {boolean}	config.is_sliding 					- Flag for if the user is sliding the song slider.
  * @property {boolean}	config.buffered									- How much of the song is buffered.
  * @property {object} 	config.bindings									- Array of bindings to certain key events.
  * @property {boolean} 	config.continue_next 						- Determines when a song ends, we should continue to the next song.
@@ -115,6 +116,8 @@ module.exports = {
 	soundcloud_songs_ready: 0,
 
 	is_touch_moving: false,
+
+	is_sliding: false,
 
 	buffered: 0,
 
